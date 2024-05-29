@@ -80,7 +80,7 @@ Features of SIM7600G-H:
 
 The following figure show the resources on the board.
 
-![Resource](./doc/static/resource.png)
+![Resource](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/resource.png)
 
 | Number | Reference | Description |
 |--------|-----------|-------------|
@@ -362,20 +362,20 @@ the Cellular adapter should be used for internet access.
 
 Make sure it is enabled in "Control Panel->Network and Internet->Network Connections->Cellular".
 
-![Windows Network](./doc/static/windows-network-control.png)
+![Windows Network](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/windows-network-control.png)
 
 ## Connect to internet(Ubuntu)
 
 1. Click on the upper-right corner of the Ubuntu desktop,
 and then click on the gear button to open the Ubuntu settings.
 
-    ![Ubuntu Network](./doc/static/ubuntu-network.png)
+    ![Ubuntu Network](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/ubuntu-network.png)
 
 1. In the "Network" section, disable the wired connections.
 
 1. In the "Mobile Network" section, enable "Mobile Network" and "Mobile Data".
 
-    ![Ubuntu Mobile Network](./doc/static/ubuntu-mobile-network-setting.png)
+    ![Ubuntu Mobile Network](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/ubuntu-mobile-network-setting.png)
 
 1. Then you can access internet with this module.
 
@@ -384,33 +384,33 @@ and then click on the gear button to open the Ubuntu settings.
 1. Click on the upper-right coner of the Raspberry Pi OS desktop,
 and then click "Advanced Option->Edit Connections...".
 
-    ![Pi network settings 1](./doc/static/pi_network1.png)
+    ![Pi network settings 1](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network1.png)
 
 1. Click "+" in the "Network Connections" dialog,
 and then select "Mobile Broadband" in the list.
 
-    ![Pi network settings 2](./doc/static/pi_network2.png)
+    ![Pi network settings 2](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network2.png)
 
 1. Click "Next" in the "Set up a Mobile Broadband Connection" step.
 
-    ![Pi network settings 3](./doc/static/pi_network3.png)
+    ![Pi network settings 3](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network3.png)
 
 1. Select "My provider uses GSM technology(GPRS, EDGE, UMTS, HSPA)" in the "Choose your provider" step,
 and click "Next"
 
-    ![Pi network settings 4](./doc/static/pi_network4.png)
+    ![Pi network settings 4](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network4.png)
 
 1. Enter the APN of your service provider, you may find this information in your phone or by searching on the internet.
 And then click "Next".
 
-    ![Pi network settings 5](./doc/static/pi_network5.png)
+    ![Pi network settings 5](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network5.png)
 
 1. Confirm your settings, and then click "Next".
 
-    ![Pi network settings 6](./doc/static/pi_network6.png)
+    ![Pi network settings 6](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network6.png)
 
 1. Enable "Connect automatically with priority", and click "Save".
 
-    ![Pi network settings 6](./doc/static/pi_network7.png)
+    ![Pi network settings 7](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network7.png)
 
 1. You will be able to use this module to access internet, after disable other wired and WiFi connection.
