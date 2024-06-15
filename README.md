@@ -1,4 +1,4 @@
-This is the document for SIM7600G-H 4G-modem board.
+This is the document for SIM7600G-H LTE(4G) modem board.
 
 # Introduction
 
@@ -414,3 +414,131 @@ And then click "Next".
     ![Pi network settings 7](https://raw.githubusercontent.com/strongtek/4G-modem/main/doc/static/pi_network7.png)
 
 1. You will be able to use this module to access internet, after disable other wired and WiFi connection.
+
+## SSH to a host using SIM7600G-H networking with private IP address
+
+In most cases, mobile ISP will assign a private IP address to your LTE modem.
+Your host can use this private IP address to access the internet,
+but you can't make other hosts connect to your host directly.
+
+If this is the case, you may use SSH reverse tunnel to access your host from other hosts.
+
+First, you need a SSH server with public IP address, that your host can login.
+
+This server might be a cloud server with static public IP address,
+or it can be another computer in your house with dynamic public IP address.
+
+In the later case, you may want to setup a DDNS to access your in-house server with a domain name, instead of the changable dynamic IP.
+
+Here is the settings on the SSH server:
+
+```
+sudo vi /etc/ssh/sshd_config
+```
+
+Search "GatewayPorts" and "AllowTcpForwarding" in the config file, and make the lines like:
+
+```
+AllowTcpForwarding yes
+GatewayPorts yes
+```
+
+After saving the sshd_config file, restart the SSH server.
+
+```
+sudo systemctl restart ssh
+```
+
+Then, you need to do some setup on your host:
+
+1. Generate key files, and copy the public key to SSH server, this will make your host login into the SSH server without entering password everytime.
+
+    ```
+    ssh-keygen
+    ssh-copy-id <ssh_server_user_name>@<ssh_server_address>
+    ```
+
+2. Make a quick test:
+
+    ```
+    ssh -nNTv -R 0.0.0.0:2222:localhost:22 <ssh_server_user_name>@<ssh_server_address>
+    ```
+
+    Then you can try to access your host from the server:
+    ```
+    ssh -p 2222 <your_host_user_name>@localhost
+    ```
+
+    You can also login into your host from other hosts, not only from the SSH server:
+    ```
+    ssh -p 2222 <your_host_user_name>@<ssh_server_address>
+    ```
+    If your SSH server is located in your house, make sure open 2222 and route it to your SSH server. This is usually done in the "Virtual server" setting page of your router.
+
+3. Install autossh in your host, and make it run at startup.
+
+    ```
+    sudo apt install autossh
+    sudo vi /etc/default/autossh
+    ```
+
+    In the /etc/default/autossh, entering the following text:
+
+    ```
+    AUTOSSH_POLL=60
+    AUTOSSH_FIRST_POLL=30
+    AUTOSSH_GATETIME=0
+    AUTOSSH_PORT=22000
+    SSH_OPTIONS="-N -R 2222:localhost:22 <ssh_server_user_name>@<ssh_server_address>"
+    ```
+
+    Create a systemd setting file for autossh service:
+
+    ```
+    sudo vi /etc/systemd/system/autossh.service
+    ```
+
+    In the /etc/systemd/system/autossh.service, entering the following text:
+
+    ```
+    [Unit]
+    Description=autossh
+    Wants=network-online.target
+    After=network-online.target
+
+    [Service]
+    Type=simple
+    User=<your_host_user_name>
+    EnvironmentFile=/etc/default/autossh
+    ExecStart=/usr/bin/autossh $SSH_OPTIONS
+    Restart=always
+    RestartSec=60
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+    Start and enable the autossh service:
+
+    ```
+    sudo systemctl daemon-reload
+    sudo systemctl start autossh
+    sudo systemctl enable autossh
+    sudo reboot
+    ```
+
+    After reboot, you may check autossh is running by:
+
+    ```
+    sudo systemctl status autossh
+    ````
+
+    Now, you can SSH to your host from any hosts that can access the SSH server:
+
+    ```
+    ssh -p 2222 <your_host_user_name>@<ssh_server_address>
+    ```
+
+    Sometimes, your host may fail to make reverse tunnel, that might because the port number is used on the SSH server. Just kill the process that use the port number and retry.
+
+    This section is mainly copied from https://www.jeffgeerling.com/blog/2022/ssh-and-http-raspberry-pi-behind-cg-nat.
