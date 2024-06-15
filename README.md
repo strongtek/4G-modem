@@ -541,4 +541,4 @@ Then, you need to do some setup on your host:
 
     Sometimes, your host may fail to make reverse tunnel, that might because the port number is used on the SSH server. Just kill the process that use the port number and retry.
 
-    This section is mainly copied from https://www.jeffgeerling.com/blog/2022/ssh-and-http-raspberry-pi-behind-cg-nat.
+    This section is mainly copied from https://www.jeffgeerling.com/blog/2022/ssh-and-http-raspberry-pi-behind-cg-nat, thanks Jeff!
